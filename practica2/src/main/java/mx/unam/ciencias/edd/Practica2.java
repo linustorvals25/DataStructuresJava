@@ -10,7 +10,7 @@ public class Practica2 {
 
     /* Imprime el uso del programa y lo termina. */
     private static void uso() {
-        System.err.println("Uso: java -jar practica3.jar N");
+        System.err.println("Uso: java -jar practica2.jar N");
         System.exit(1);
     }
 

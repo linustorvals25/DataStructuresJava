@@ -288,6 +288,8 @@ public class Lista<T> implements Coleccion<T> {
      *         <code>false</code> en otro caso.
      */
     @Override public boolean contiene(T elemento) {
+        if (temp == null)
+            return false;
         Nodo temp = cabeza;
         while (temp != null) {
             if (temp.elemento.equals(elemento))
@@ -380,6 +382,8 @@ public class Lista<T> implements Coleccion<T> {
      *         no está contenido en la lista.
      */
     public int indiceDe(T elemento) {
+        if (elemento == null)
+            return -1;
         Nodo temp = cabeza;
         for (int i = 0; i < longitud; i++) {
             if (temp.elemento.equals(elemento))

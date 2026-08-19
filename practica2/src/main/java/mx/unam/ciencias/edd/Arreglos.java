@@ -24,7 +24,7 @@ public class Arreglos {
     }
 
     /**
-     * Ordena el arreglo recibido usando QickSort.
+     * Ordena el arreglo recibido usando QuickSort.
      * @param <T> tipo del que puede ser el arreglo.
      * @param arreglo el arreglo a ordenar.
      * @param comparador el comparador para ordenar el arreglo.
@@ -35,7 +35,7 @@ public class Arreglos {
     }
 
     /**
-     * Ordena el arreglo recibido usando QickSort.
+     * Ordena el arreglo recibido usando QuickSort.
      * @param <T> tipo del que puede ser el arreglo.
      * @param arreglo el arreglo a ordenar.
      * @param comparador el comparador para ordenar el arreglo.
@@ -66,7 +66,7 @@ public class Arreglos {
     }
 
     /**
-     * Ordena el arreglo recibido usando QickSort.
+     * Ordena el arreglo recibido usando QuickSort.
      * @param <T> tipo del que puede ser el arreglo.
      * @param arreglo un arreglo cuyos elementos son comparables.
      */
