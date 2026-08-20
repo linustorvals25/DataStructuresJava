@@ -45,11 +45,13 @@ public abstract class MeteSaca<T> {
     public T saca() {
         if (esVacia())
             throw new NoSuchElementException("La estructura esta vacia, no se pueden sacar elementos.");
+        T eliminado = cabeza.elemento;
         if (cabeza == rabo) {
             cabeza = rabo = null;
         } else {
             cabeza = cabeza.siguiente;
         }
+        return eliminado;
     }
 
     /**
