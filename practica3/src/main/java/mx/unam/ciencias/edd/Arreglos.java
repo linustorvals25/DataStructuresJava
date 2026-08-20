@@ -72,7 +72,7 @@ public class Arreglos {
      * @param bajo el limite inferior del arreglo a particionar.
      * @param alto el limite superior del arreglo a particionar.
      */
-    private static <T> void
+    private static <T> int 
     particionar(T[] arreglo, Comparator<T> comparador, int bajo, int alto) {
         T pivote = arreglo[alto];
         int i = bajo - 1;
@@ -158,13 +158,13 @@ public class Arreglos {
     private static <T> int 
     busquedaBinaria(T[] arreglo, T elemento, Comparator<T> comparador, int inicio, int fin) {
         // Caso base
-        if (inicio >= bajo) 
+        if (inicio >= fin) 
             return -1;
         // Indice del elemento a la mitad del arreglo.
         int medio = inicio + (fin - inicio) / 2;
         // El elemento es mayor que el elemento a la mitad del arreglo.
         if (comparador.compare(arreglo[medio], elemento) <= 0) {
-            return busquedaBinaria(arreglo, elemento, medio + 1, fin);
+            return busquedaBinaria(arreglo, elemento, comparador, medio + 1, fin);
         }
         // El elemento es menor que el elemento a la mitad del arreglo.
         if (comparador.compare(arreglo[medio], elemento) > 0) {
