@@ -128,7 +128,7 @@ public class Arreglos {
      */
     public static <T> int
     busquedaBinaria(T[] arreglo, T elemento, Comparator<T> comparador) {
-        busquedaBinaria(arreglo, comparador, 0, arreglo.length - 1);
+        return busquedaBinaria(arreglo, elemento, comparador, 0, arreglo.length - 1);
     }
 
     /**
