@@ -481,11 +481,13 @@ public class Lista<T> implements Coleccion<T> {
     }
 
     /**
-     * Mezcla dos listas ordenadas en una sola lista ordenada.
-     * @param comparador
-     * @param lista1
-     * @param lista2
-     * @return
+     * Metoda auxiliar a mergeSort:
+     * Mezcla las dos listas (ordenadas) recibidas un una nueva lista ordenada. 
+     * @param comparador el comparador que se usara para hacer el ordanamiento,
+     * @param lista1 la primer lista a mezclar.
+     * @param lista2 la segunda lista a mezclar.
+     * @return una nueva lista que contiene a los elementos de <code>lista1</code> y 
+     * <code>lista2</code> pero ordenados.
      */
     private Lista<T> mezcla(Comparator<T> comparador, Lista<T> lista1, Lista<T> lista2) {
         Lista<T> mezcla = new Lista<>();
