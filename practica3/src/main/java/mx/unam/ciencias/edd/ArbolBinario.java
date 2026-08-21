@@ -205,7 +205,8 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
      *                  binario.
      */
     public ArbolBinario(Coleccion<T> coleccion) {
-        // Aquí va su código.
+        for (T elemento : coleccion)
+            this.agrega(elemento);
     }
 
     /**
