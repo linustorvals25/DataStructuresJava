@@ -1,5 +1,6 @@
 package mx.unam.ciencias.edd;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -27,33 +28,31 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
 
         /* Pila para recorrer los vértices en DFS in-order. */
         private Pila<Vertice> pila;
+        private Vertice actual;
 
         /* Inicializa al iterador. */
         private Iterador() {
             pila = new Pila<>();
-            if (raiz != null) {
-                pila.mete(raiz);
-            }
+            actual = raiz;
         }
 
         /* Nos dice si hay un elemento siguiente. */
         @Override
         public boolean hasNext() {
-            return !pila.esVacia();
+            return !pila.esVacia() || actual != null;
         }
 
         /* Regresa el siguiente elemento en orden DFS in-order. */
         @Override
         public T next() {
             if (!hasNext())
-                throw new NoSuchElementException("No hay mas elemetos en el arbol.");
-            Vertice v = pila.saca();
-            while (v.hayIzquierdo()) {
-                pila.mete(v.izquierdo);
-                v = v.izquierdo;
+                throw new NoSuchElementException("No hay más elementos en el árbol.");
+            while (actual != null) {
+                pila.mete(actual);
+                actual = actual.izquierdo;
             }
-            if (v.derecho != null)
-                pila.mete(v.derecho);
+            Vertice v = pila.saca();
+            actual = v.derecho;
             return v.elemento;
         }
     }
@@ -94,9 +93,10 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
     @Override
     public void agrega(T elemento) {
         if (elemento == null)
-            return;
+            throw new IllegalArgumentException("Elemento nulo");
         Vertice v = new Vertice(elemento);
         elementos++;
+        ultimoAgregado = v; // Guardamos el último agregado
         if (raiz == null) {
             raiz = v;
             return;
@@ -156,7 +156,6 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
         if (!vertice.hayIzquierdo() || !vertice.hayDerecho())
             return vertice;
         Vertice izquierdo = vertice.izquierdo;
-        Vertice derecho = vertice.derecho;
         while (izquierdo.hayDerecho()) {
             izquierdo = izquierdo.derecho;
         }
@@ -245,6 +244,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
             izquierdo.derecho.padre = v;
         izquierdo.derecho = v;
         izquierdo.padre = padre;
+        v.padre = izquierdo;
         if (padre == null)
             raiz = izquierdo;
         else if (padre.izquierdo == v)
@@ -270,6 +270,7 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
             derecho.izquierdo.padre = v;
         derecho.izquierdo = v;
         derecho.padre = padre;
+        v.padre = derecho;
         if (padre == null)
             raiz = derecho;
         else if (padre.izquierdo == v)
@@ -309,16 +310,15 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
         if (raiz == null)
             return;
         Pila<Vertice> pila = new Pila<>();
-        pila.mete(raiz);
-        while (!pila.esVacia()) {
-            Vertice v = pila.saca();
-            while (v.hayIzquierdo()) {
-                pila.mete(v.izquierdo);
-                v = v.izquierdo;
+        Vertice actual = raiz;
+        while (!pila.esVacia() || actual != null) {
+            while (actual != null) {
+                pila.mete(actual);
+                actual = actual.izquierdo;
             }
-            accion.actua(v);
-            if (v.hayDerecho())
-                pila.mete(v.derecho);
+            actual = pila.saca();
+            accion.actua(actual);
+            actual = actual.derecho;
         }
     }
 
@@ -356,5 +356,55 @@ public class ArbolBinarioOrdenado<T extends Comparable<T>>
     @Override
     public Iterator<T> iterator() {
         return new Iterador();
+    }
+
+    /**
+     * Regresa una representación en cadena del árbol ordenado, dibujando su
+     * estructura mediante ramas. Un árbol vacío se representa con la cadena
+     * vacía.
+     *
+     * @return una representación en cadena del árbol.
+     */
+    @Override
+    public String toString() {
+        if (raiz == null)
+            return "";
+        return toString(raiz, 0, new boolean[0]);
+    }
+
+    /* Método auxiliar recursivo que dibuja el subárbol de vertice. */
+    private String toString(Vertice vertice, int nivel, boolean[] ramas) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(vertice.elemento).append("\n");
+        boolean[] ramasHijo = Arrays.copyOf(ramas, nivel + 1);
+        if (vertice.hayIzquierdo() && vertice.hayDerecho()) {
+            ramasHijo[nivel] = true;
+            sb.append(dibujaEspacios(nivel, ramasHijo));
+            sb.append("├─›");
+            sb.append(toString(vertice.izquierdo, nivel + 1, ramasHijo));
+            sb.append(dibujaEspacios(nivel, ramasHijo));
+            ramasHijo[nivel] = false;
+            sb.append("└─»");
+            sb.append(toString(vertice.derecho, nivel + 1, ramasHijo));
+        } else if (vertice.hayIzquierdo()) {
+            sb.append(dibujaEspacios(nivel, ramasHijo));
+            sb.append("└─›");
+            ramasHijo[nivel] = false;
+            sb.append(toString(vertice.izquierdo, nivel + 1, ramasHijo));
+        } else if (vertice.hayDerecho()) {
+            sb.append(dibujaEspacios(nivel, ramasHijo));
+            sb.append("└─»");
+            ramasHijo[nivel] = false;
+            sb.append(toString(vertice.derecho, nivel + 1, ramasHijo));
+        }
+        return sb.toString();
+    }
+
+    /* Dibuja el prefijo de espacios/barras verticales para el nivel dado. */
+    private String dibujaEspacios(int nivel, boolean[] ramas) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < nivel; i++)
+            sb.append(ramas[i] ? "│  " : "   ");
+        return sb.toString();
     }
 }

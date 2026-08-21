@@ -116,21 +116,35 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
             throw new IllegalArgumentException("Elemento nulo");
         if (raiz == null)
             return;
+
+        // Caso especial: la raíz es el elemento a eliminar
         if (raiz.elemento.equals(elemento)) {
-            raiz = null;
+            if (elementos == 1) {
+                raiz = null;
+                elementos--;
+                return;
+            }
+            Vertice v2 = buscaUltimo();
+            raiz.elemento = v2.elemento;
+            // Eliminar v2 de su padre
+            if (v2.padre.izquierdo == v2)
+                v2.padre.izquierdo = null;
+            else
+                v2.padre.derecho = null;
             elementos--;
             return;
         }
+
         Vertice v1 = buscaVertice(elemento);
         if (v1 == null)
             return;
         Vertice v2 = buscaUltimo();
         v1.elemento = v2.elemento;
-        if (v1.padre.izquierdo == v1) {
-            v1.padre.izquierdo = null;
-        } else {
-            v1.padre.derecho = null;
-        }
+        // Eliminar v2 de su padre
+        if (v2.padre.izquierdo == v2)
+            v2.padre.izquierdo = null;
+        else
+            v2.padre.derecho = null;
         elementos--;
     }
 
@@ -169,16 +183,15 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
             return null;
         Cola<Vertice> cola = new Cola<>();
         cola.mete(raiz);
+        Vertice ultimo = null;
         while (!cola.esVacia()) {
-            Vertice v = cola.saca();
-            if (v.izquierdo == null && v.derecho == null)
-                return v;
-            if (v.izquierdo != null)
-                cola.mete(v.izquierdo);
-            if (v.derecho != null)
-                cola.mete(v.derecho);
+            ultimo = cola.saca();
+            if (ultimo.izquierdo != null)
+                cola.mete(ultimo.izquierdo);
+            if (ultimo.derecho != null)
+                cola.mete(ultimo.derecho);
         }
-        return null;
+        return ultimo;
     }
 
     /**
@@ -189,6 +202,8 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
      */
     @Override
     public int altura() {
+        if (elementos == 0)
+            return -1;
         return (int) Math.floor(Math.log(elementos) / Math.log(2));
     }
 

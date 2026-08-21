@@ -327,7 +327,12 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
             return false;
         @SuppressWarnings("unchecked")
         ArbolBinario<T> arbol = (ArbolBinario<T>) objeto;
-        return arbol.raiz.equals(this.raiz);
+        // Manejo seguro de null en raíz
+        if (this.raiz == null && arbol.raiz == null)
+            return true;
+        if (this.raiz == null || arbol.raiz == null)
+            return false;
+        return this.raiz.equals(arbol.raiz);
     }
 
     /**
@@ -338,24 +343,39 @@ public abstract class ArbolBinario<T> implements Coleccion<T> {
     @Override
     public String toString() {
         if (raiz == null) {
-            return "{}";
+            return "";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("{ ");
-        Cola<Vertice> cola = new Cola<>();
-        cola.mete(raiz);
-        while (!cola.esVacia()) {
-            Vertice v = cola.saca();
-            sb.append(v.elemento);
-            sb.append(" ");
-            if (v.izquierdo != null) {
-                cola.mete(v.izquierdo);
-            }
-            if (v.derecho != null) {
-                cola.mete(v.derecho);
-            }
+        sb.append(raiz.toString());
+        sb.append("\n");
+        sb.append(toStringHijos(raiz, ""));
+        return sb.toString();
+    }
+
+    /**
+     * Método auxiliar recursivo que dibuja, con caracteres de línea, a los
+     * hijos del vértice recibido. El primer hijo (o el único, si sólo hay
+     * uno) se dibuja como la última rama.
+     * 
+     * @param vertice el vértice cuyos hijos se van a dibujar.
+     * @param prefijo el prefijo (las ramas ya dibujadas) que hay que
+     *                anteponer a cada línea.
+     * @return la representación en cadena de los hijos del vértice.
+     */
+    private String toStringHijos(Vertice vertice, String prefijo) {
+        StringBuilder sb = new StringBuilder();
+        if (vertice.izquierdo != null && vertice.derecho != null) {
+            sb.append(prefijo).append("├─›").append(vertice.izquierdo.toString()).append("\n");
+            sb.append(toStringHijos(vertice.izquierdo, prefijo + "│  "));
+            sb.append(prefijo).append("└─»").append(vertice.derecho.toString()).append("\n");
+            sb.append(toStringHijos(vertice.derecho, prefijo + "   "));
+        } else if (vertice.izquierdo != null) {
+            sb.append(prefijo).append("└─›").append(vertice.izquierdo.toString()).append("\n");
+            sb.append(toStringHijos(vertice.izquierdo, prefijo + "   "));
+        } else if (vertice.derecho != null) {
+            sb.append(prefijo).append("└─»").append(vertice.derecho.toString()).append("\n");
+            sb.append(toStringHijos(vertice.derecho, prefijo + "   "));
         }
-        sb.append("}");
         return sb.toString();
     }
 
