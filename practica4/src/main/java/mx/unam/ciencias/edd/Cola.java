@@ -7,29 +7,37 @@ public class Cola<T> extends MeteSaca<T> {
 
     /**
      * Regresa una representación en cadena de la cola.
+     * 
      * @return una representación en cadena de la cola.
      */
-    @Override public String toString() {
-        StringBuilder sb = new StringBuilder("");
+    @Override
+    public String toString() {
+        String toString = "";
         Nodo temp = cabeza;
         while (temp != null) {
-            sb.append(elemento + ",");
+            toString += temp.elemento + ",";
             temp = temp.siguiente;
         }
-        return temp.toString();
+        return toString;
     }
 
     /**
      * Agrega un elemento al final de la cola.
+     * 
      * @param elemento el elemento a agregar.
      * @throws IllegalArgumentException si <code>elemento</code> es
-     *         <code>null</code>.
+     *                                  <code>null</code>.
      */
-    @Override public void mete(T elemento) {
+    @Override
+    public void mete(T elemento) {
         if (elemento == null)
-            throw new IllegalArgumentException("La Cola no acepta a null como elemento");
+            throw new IllegalArgumentException("El elemento es nulo.");
         Nodo nuevo = new Nodo(elemento);
-        nuevo.siguiente = cabeza;
-        cabeza = nuevo;
+        if (esVacia()) {
+            cabeza = rabo = nuevo;
+        } else {
+            rabo.siguiente = nuevo;
+            rabo = nuevo;
+        }
     }
 }

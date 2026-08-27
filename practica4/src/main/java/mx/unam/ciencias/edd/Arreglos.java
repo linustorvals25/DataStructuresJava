@@ -8,7 +8,8 @@ import java.util.Comparator;
 public class Arreglos {
 
     /* Constructor privado para evitar instanciación. */
-    private Arreglos() {}
+    private Arreglos() {
+    }
 
     /**
      * Intercambia de posicion dos elementos del arreglo recibido.
@@ -26,39 +27,33 @@ public class Arreglos {
 
     /**
      * Ordena el arreglo recibido usando QuickSort.
-     * @param <T> tipo del que puede ser el arreglo.
-     * @param arreglo el arreglo a ordenar.
+     * 
+     * @param <T>        tipo del que puede ser el arreglo.
+     * @param arreglo    el arreglo a ordenar.
      * @param comparador el comparador para ordenar el arreglo.
      */
-    public static <T> void
-    quickSort(T[] arreglo, Comparator<T> comparador) {
+    public static <T> void quickSort(T[] arreglo, Comparator<T> comparador) {
         quickSort(arreglo, comparador, 0, arreglo.length - 1);
     }
 
     /**
-     * Ordena el arreglo recibido usando QuickSort recursivo.
-     * @param <T>
-     * @param arreglo
-     * @param comparador
-     * @param bajo
-     * @param alto
-     * @return
+     * Ordena el arreglo recibido usando QuickSort.
+     * 
+     * @param <T>        tipo del que puede ser el arreglo.
+     * @param arreglo    el arreglo a ordenar.
+     * @param comparador el comparador para ordenar el arreglo.
+     * @param bajo       el limite inferior del subarreglo a ordenar.
+     * @param alto       el limite superior del subarreglo a ordenar.
      */
-    private static <T> void 
-    quickSort(T[] arreglo, Comparator<T> comparador, int bajo, int alto) {
+    private static <T> void quickSort(T[] arreglo, Comparator<T> comparador, int bajo, int alto) {
         if (bajo >= alto)
             return;
-        int pivoteInx = particionar(arreglo, comparador, bajo, alto);
-        quickSort(arreglo, comparador, bajo, pivoteInx - 1);
-        quickSort(arreglo, comparador, pivoteInx + 1, alto);
+        int pivoteIdx = particionar(arreglo, comparador, bajo, alto);
+        quickSort(arreglo, comparador, bajo, pivoteIdx - 1);
+        quickSort(arreglo, comparador, pivoteIdx + 1, alto);
     }
-    /**
-     * 
-     * @param <T>
-     * @param arreglo
-     */
-    private static <T> int
-    particionar(T[] arreglo, Comparator<T> comparador, int bajo, int alto) {
+
+    private static <T> int particionar(T[] arreglo, Comparator<T> comparador, int bajo, int alto) {
         T pivote = arreglo[alto];
         int i = bajo - 1;
         for (int j = bajo; j < alto; j++) {
@@ -72,27 +67,27 @@ public class Arreglos {
     }
 
     /**
-     * Ordena el arreglo recibido usando QickSort.
-     * @param <T> tipo del que puede ser el arreglo.
+     * Ordena el arreglo recibido usando QuickSort.
+     * 
+     * @param <T>     tipo del que puede ser el arreglo.
      * @param arreglo un arreglo cuyos elementos son comparables.
      */
-    public static <T extends Comparable<T>> void
-    quickSort(T[] arreglo) {
+    public static <T extends Comparable<T>> void quickSort(T[] arreglo) {
         quickSort(arreglo, (a, b) -> a.compareTo(b));
     }
 
     /**
      * Ordena el arreglo recibido usando SelectionSort.
-     * @param <T> tipo del que puede ser el arreglo.
-     * @param arreglo el arreglo a ordenar.
+     * 
+     * @param <T>        tipo del que puede ser el arreglo.
+     * @param arreglo    el arreglo a ordenar.
      * @param comparador el comparador para ordernar el arreglo.
      */
-    public static <T> void
-    selectionSort(T[] arreglo, Comparator<T> comparador) {
-        for (int i = 1; i < arreglo.length - 1; i++) {
+    public static <T> void selectionSort(T[] arreglo, Comparator<T> comparador) {
+        for (int i = 0; i < arreglo.length - 1; i++) {
             int pos_min = i;
-            for (int j = 0; j < arreglo.length; j++) {
-                if (comparadoromparador.compare(arreglo[j], arreglo[pos_min]) < 0) {
+            for (int j = i + 1; j < arreglo.length; j++) {
+                if (comparador.compare(arreglo[j], arreglo[pos_min]) < 0) {
                     pos_min = j;
                 }
             }
@@ -104,62 +99,51 @@ public class Arreglos {
 
     /**
      * Ordena el arreglo recibido usando SelectionSort.
-     * @param <T> tipo del que puede ser el arreglo.
+     * 
+     * @param <T>     tipo del que puede ser el arreglo.
      * @param arreglo un arreglo cuyos elementos son comparables.
      */
-    public static <T extends Comparable<T>> void
-    selectionSort(T[] arreglo) {
+    public static <T extends Comparable<T>> void selectionSort(T[] arreglo) {
         selectionSort(arreglo, (a, b) -> a.compareTo(b));
     }
 
     /**
      * Hace una búsqueda binaria del elemento en el arreglo. Regresa el índice
      * del elemento en el arreglo, o -1 si no se encuentra.
-     * @param <T> tipo del que puede ser el arreglo.
-     * @param arreglo el arreglo dónde buscar.
-     * @param elemento el elemento a buscar.
+     * 
+     * @param <T>        tipo del que puede ser el arreglo.
+     * @param arreglo    el arreglo dónde buscar.
+     * @param elemento   el elemento a buscar.
      * @param comparador el comparador para hacer la búsqueda.
      * @return el índice del elemento en el arreglo, o -1 si no se encuentra.
      */
-    public static <T> int
-    busquedaBinaria(T[] arreglo, T elemento, Comparator<T> comparador) {
-        busquedaBinaria(arreglo, elemento, comparador, 0, length);
+    public static <T> int busquedaBinaria(T[] arreglo, T elemento, Comparator<T> comparador) {
+        return busquedaBinaria(arreglo, elemento, comparador, 0, arreglo.length);
     }
 
-    /**
-     * Hace un búsqueda binaria del elemnto en el arreglo. Regresa el indice
-     * del elemento en el arreglo, o -1 si no se encuentra.
-     * @param <T> tipo del que puede ser el arreglo.
-     * @param arreglo el arreglo donde buscar.
-     * @param elemento el elemento a buscar.
-     * @param comparador el comparador para hacer la busqueda.
-     * @param inicio la copa inferior del espacio de busqueda.
-     * @param fin la cota superior del espacio de busqueda.
-     * @return
-     */
-    private static <T> int 
-    busquedaBinaria(T[] arreglo, T elemento, Comparator<T> comparador, int inicio, int fin) {
+    private static <T> int busquedaBinaria(T[] arreglo, T elemento, Comparator<T> comparador, int inicio, int fin) {
         if (inicio >= fin)
             return -1;
         int medio = inicio + (fin - inicio) / 2;
-        int comp = comparador(arreglo[elemento], elemento);
-        if (comp < 0)
-            return busquedaBinaria(arreglo, elemento, comparador, inicio + 1, fin);
-        if (comp > 0)
-            return busquedaBinaria(arreglo, elemento, comparador, inicio, fin - 1);
+        if (comparador.compare(arreglo[medio], elemento) < 0) {
+            return busquedaBinaria(arreglo, elemento, comparador, medio + 1, fin);
+        }
+        if (comparador.compare(arreglo[medio], elemento) > 0) {
+            return busquedaBinaria(arreglo, elemento, comparador, inicio, medio);
+        }
         return medio;
     }
 
     /**
      * Hace una búsqueda binaria del elemento en el arreglo. Regresa el índice
      * del elemento en el arreglo, o -1 si no se encuentra.
-     * @param <T> tipo del que puede ser el arreglo.
-     * @param arreglo un arreglo cuyos elementos son comparables.
+     * 
+     * @param <T>      tipo del que puede ser el arreglo.
+     * @param arreglo  un arreglo cuyos elementos son comparables.
      * @param elemento el elemento a buscar.
      * @return el índice del elemento en el arreglo, o -1 si no se encuentra.
      */
-    public static <T extends Comparable<T>> int
-    busquedaBinaria(T[] arreglo, T elemento) {
+    public static <T extends Comparable<T>> int busquedaBinaria(T[] arreglo, T elemento) {
         return busquedaBinaria(arreglo, elemento, (a, b) -> a.compareTo(b));
     }
 }

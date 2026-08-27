@@ -22,7 +22,7 @@ public abstract class MeteSaca<T> {
          * @param elemento el elemento del nodo.
          */
         public Nodo(T elemento) {
-            this.elemento =  elemento;
+            this.elemento = elemento;
         }
     }
 
@@ -43,11 +43,15 @@ public abstract class MeteSaca<T> {
      * @throws NoSuchElementException si la estructura está vacía.
      */
     public T saca() {
-        if (esVacia()) 
-            throw new NoSuchElementException("La estructura esta vacía.");
-        T elemento = cabeza.elemento;
-        cabeza = cabeza.siguiente;
-        return elemento;
+        if (esVacia())
+            throw new NoSuchElementException("La estructura esta vacia, no se pueden sacar elementos.");
+        T eliminado = cabeza.elemento;
+        if (cabeza == rabo) {
+            cabeza = rabo = null;
+        } else {
+            cabeza = cabeza.siguiente;
+        }
+        return eliminado;
     }
 
     /**
@@ -57,8 +61,8 @@ public abstract class MeteSaca<T> {
      * @throws NoSuchElementException si la estructura está vacía.
      */
     public T mira() {
-        if (esVacia())
-            throw new NoSuchElementException("La estructura esta vacía.");
+        if (esVacia()) 
+            throw new NoSuchElementException("La estructura esta vacia.");
         return cabeza.elemento;
     }
 
