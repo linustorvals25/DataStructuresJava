@@ -174,7 +174,6 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
 
     /**
      * Busca el último vértice del árbol en orden BFS.
-     * 
      * @return el último vértice del árbol en orden BFS, o <code>null</code> si
      *         el árbol es vacío.
      */
@@ -182,7 +181,7 @@ public class ArbolBinarioCompleto<T> extends ArbolBinario<T> {
         if (raiz == null)
             return null;
         Cola<Vertice> cola = new Cola<>();
-        cola.mete(raiz);
+        cola .mete(raiz);
         Vertice ultimo = null;
         while (!cola.esVacia()) {
             ultimo = cola.saca();

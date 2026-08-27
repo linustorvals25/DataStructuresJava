@@ -10,14 +10,12 @@ import java.util.NoSuchElementException;
  * acotados a la interfaz {@link Comparable}.
  * </p>
  *
- * <p>
- * Un árbol instancia de esta clase siempre cumple que:
- * </p>
+ * <p> Un árbol instancia de esta clase siempre cumple que: </p>
  * <ul>
- * <li>Cualquier elemento en el árbol es mayor o igual que todos sus
- * descendientes por la izquierda.</li>
- * <li>Cualquier elemento en el árbol es menor o igual que todos sus
- * descendientes por la derecha.</li>
+ *   <li>Cualquier elemento en el árbol es mayor o igual que todos sus
+ *       descendientes por la izquierda.</li>
+ *   <li>Cualquier elemento en el árbol es menor o igual que todos sus
+ *       descendientes por la derecha.</li>
  * </ul>
  */
 public class ArbolBinarioOrdenado<T extends Comparable<T>>
